@@ -5,6 +5,7 @@ import com.example.demo.service.FaqService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,16 +33,16 @@ public class FaqController {
     }
 
     // Get FAQs by User ID
-    @GetMapping("/user/{userId}")
+    @GetMapping("/{userId}")
     public List<Faq> getFaqsByUserId(@PathVariable Long userId) {
         return faqService.getFaqsByUserId(userId);
     }
 
-    // Search FAQs by keyword in question
-    @GetMapping("/search")
-    public List<Faq> searchFaqs(@RequestParam String keyword) {
-        return faqService.searchFaqs(keyword);
-    }
+    // // Search FAQs by keyword in question
+    // @GetMapping("/search")
+    // public List<Faq> searchFaqs(@RequestParam String keyword) {
+    //     return faqService.searchFaqs(keyword);
+    // }
 
     // Create a new FAQ
     @PostMapping
@@ -57,6 +58,15 @@ public class FaqController {
             return ResponseEntity.ok(updatedFaq);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
+        }
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAuthor(@PathVariable int id) {
+        try {
+            faqService.deleteAuthor(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

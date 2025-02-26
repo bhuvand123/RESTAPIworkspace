@@ -50,4 +50,14 @@ public class FaqService {
             return faqRepository.save(faq);
         }).orElseThrow(() -> new RuntimeException("FAQ not found with id " + id));
     }
+    public void deleteAuthor(int id) {
+        if (faqRepository.existsById((long) id))
+         {
+            faqRepository.deleteById( (long) id);
+        } 
+        else 
+        {
+            throw new RuntimeException("Author not found with id " + id);
+        }
+    }
 }

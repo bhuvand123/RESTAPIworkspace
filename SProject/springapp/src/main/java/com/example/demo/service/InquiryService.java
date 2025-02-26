@@ -46,4 +46,15 @@ public class InquiryService {
             return inquiryRepository.save(inquiry);
         }).orElseThrow(() -> new RuntimeException("Inquiry not found"));
     }
+    public void deleteAuthor(int id) {
+        if (inquiryRepository.existsById((long) id))
+         {
+            inquiryRepository.deleteById( (long) id);
+        } 
+        else 
+        {
+            throw new RuntimeException("Author not found with id " + id);
+        }
+
+    }
 }

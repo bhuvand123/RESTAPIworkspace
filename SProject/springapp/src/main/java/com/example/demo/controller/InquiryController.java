@@ -5,6 +5,7 @@ import com.example.demo.model.InquiryStatus;
 import com.example.demo.service.InquiryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;  // Keep this since it's used
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,7 @@ public class InquiryController {
         return inquiryService.getInquiriesByStatus(status, pageable);
     }
 
-    // Get a single inquiry by ID
+    
     @GetMapping("/{id}")
     public ResponseEntity<Inquiry> getInquiryById(@PathVariable Long id) {
         Optional<Inquiry> inquiry = inquiryService.getInquiryById(id);
@@ -52,5 +53,14 @@ public class InquiryController {
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAuthor(@PathVariable int id) {
+        try {
+            inquiryService.deleteAuthor(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
     }
 }
